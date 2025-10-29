@@ -30,10 +30,10 @@ O **Gerador de Números** é uma aplicação mobile multiplataforma desenvolvida
 - 🔄 **Dupla Interação**: Botão principal e FloatingActionButton
 - 🎨 **Interface Premium**: Cards com sombras e bordas arredondadas
 
-## � Screenshots
+## 📸 Screenshots
 
 <div align="center">
-  <img src="images/screenshots/app_screenshot.png" alt="Gerador de Números - Interface Principal" width="300">
+  <img src="images/screenshots/App.png" alt="Gerador de Números - Interface Principal" width="300">
   <br>
   <em>Interface principal do aplicativo em tema escuro</em>
 </div>
@@ -57,9 +57,8 @@ flutter_application_1/
 ├── 📁 lib/
 │   └── 📄 main.dart                 # Código principal da aplicação
 ├── 📁 images/
-│   ├── 📁 screenshots/              # Screenshots do aplicativo
-│   │   └── 📄 app_screenshot.png    # Interface principal
-│   └── 🖼️ suco.jpg                  # Recurso de imagem decorativa
+│   └── 📁 screenshots/              # Screenshots do aplicativo
+│       └── 📄 App.png               # Interface principal
 ├── 📁 test/
 │   └── 📄 widget_test.dart          # Testes automatizados
 ├── 📁 android/                      # Configurações Android
