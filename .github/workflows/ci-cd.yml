@@ -1,0 +1,237 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Job para análise de código e testes
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Verificar versão Flutter
+      run: flutter --version
+      
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Verificar formatação do código
+      run: dart format --output=none --set-exit-if-changed .
+      
+    - name: Analisar código
+      run: flutter analyze
+      
+    - name: Executar testes
+      run: flutter test --coverage
+      
+    - name: Upload de cobertura para Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage/lcov.info
+
+  # Job para build Web
+  build-web:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Habilitar Flutter Web
+      run: flutter config --enable-web
+      
+    - name: Build Web
+      run: flutter build web --release
+      
+    - name: Upload artefatos Web
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-build
+        path: build/web/
+
+  # Job para build Android
+  build-android:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Build APK
+      run: flutter build apk --release
+      
+    - name: Build App Bundle
+      run: flutter build appbundle --release
+      
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: android-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+        
+    - name: Upload App Bundle
+      uses: actions/upload-artifact@v3
+      with:
+        name: android-aab
+        path: build/app/outputs/bundle/release/app-release.aab
+
+  # Job para build Windows
+  build-windows:
+    needs: test
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Habilitar Flutter Desktop
+      run: flutter config --enable-windows-desktop
+      
+    - name: Build Windows
+      run: flutter build windows --release
+      
+    - name: Upload build Windows
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-build
+        path: build/windows/x64/runner/Release/
+
+  # Job para build macOS
+  build-macos:
+    needs: test
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Habilitar Flutter Desktop
+      run: flutter config --enable-macos-desktop
+      
+    - name: Build macOS
+      run: flutter build macos --release
+      
+    - name: Upload build macOS
+      uses: actions/upload-artifact@v3
+      with:
+        name: macos-build
+        path: build/macos/Build/Products/Release/
+
+  # Job para build iOS (requer certificados)
+  build-ios:
+    needs: test
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.2'
+        channel: 'stable'
+        cache: true
+        
+    - name: Instalar dependências
+      run: flutter pub get
+      
+    - name: Build iOS (sem assinatura)
+      run: flutter build ios --release --no-codesign
+      
+    - name: Upload build iOS
+      uses: actions/upload-artifact@v3
+      with:
+        name: ios-build
+        path: build/ios/iphoneos/
+
+  # Job para deploy automático (opcional)
+  deploy:
+    needs: [build-web, build-android, build-windows, build-macos, build-ios]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Download artefato Web
+      uses: actions/download-artifact@v3
+      with:
+        name: web-build
+        path: ./web-build
+        
+    # Aqui você pode adicionar steps para deploy em GitHub Pages, Firebase, etc.
+    - name: Deploy para GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./web-build
