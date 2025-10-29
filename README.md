@@ -241,8 +241,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 🙏 Agradecimentos
 
-- **Professor(a)**: Amanda Rosa Ferreira Pela orientação na disciplina de Sistemas de Computação Móvel
-- **Faculdade**: Pelo ambiente de aprendizado proporcionado
+- **Professora**: Amanda Rosa Ferreira Pela orientação na disciplina de Sistemas de Computação Móvel
+- **Faculdade**: Unitri Pelo ambiente de aprendizado proporcionado
 - **Comunidade Flutter**: Pela documentação e recursos disponíveis
 
 ---
