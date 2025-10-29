@@ -235,9 +235,9 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Wenderson**
 - 🎓 Análise e Desenvolvimento de Sistemas - 4º Período
 - 📚 Disciplina: Sistemas de Computação Móvel
-- 📧 Email: [seu-email@example.com](mailto:seu-email@example.com)
-- 💼 LinkedIn: [Seu LinkedIn](https://linkedin.com/in/seu-profile)
-- 🐙 GitHub: [@seu-usuario](https://github.com/seu-usuario)
+- 📧 Email: wenderson.teles@icloud.com
+- 💼 LinkedIn: www.linkedin.com/in/wenderson-jose
+- 🐙 GitHub: https://github.com/Wendersonjose
 
 ## 🙏 Agradecimentos
 
