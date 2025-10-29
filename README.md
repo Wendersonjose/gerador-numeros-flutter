@@ -163,7 +163,7 @@ flutter build linux --release        # Linux
 ## 🎨 Screenshots
 
 <div align="center">
-  <p><em>Em breve: Screenshots do aplicativo em execução</em></p>
+  <img src="images/screenshots/App.png" alt="Gerador de Números - Interface Principal" width="300">
 </div>
 
 ## 🏗️ Arquitetura
@@ -241,8 +241,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 🙏 Agradecimentos
 
-- **Professor(a)**: Pela orientação na disciplina de Sistemas de Computação Móvel
-- **Flutter Team**: Pela excelente framework de desenvolvimento
+- **Professor(a)**: Amanda Rosa Ferreira Pela orientação na disciplina de Sistemas de Computação Móvel
 - **Faculdade**: Pelo ambiente de aprendizado proporcionado
 - **Comunidade Flutter**: Pela documentação e recursos disponíveis
 
